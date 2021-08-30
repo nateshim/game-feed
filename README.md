@@ -73,12 +73,12 @@ axios.get('https://api.igdb.com/v4/games', {
 ## Wireframes
 ---
 
-![alt text](/public/GameFeed.jpg)
-![alt text](/public/GameFeed1.jpg)
-<img src="public/GameFeed2.jpg" height="300">
-<img src="public/GameFeed3.jpg" height="300">
-<img src="public/GameFeed4.jpg" height="300">
-<img src="public/GameFeed5.jpg" height="300">
+![alt text](https://res.cloudinary.com/danlsii8g/image/upload/v1630341878/GameFeed_unrg9c.jpg)
+![alt text](https://res.cloudinary.com/danlsii8g/image/upload/v1630341883/GameFeed1_ndy6wg.jpg)
+<img src="https://res.cloudinary.com/danlsii8g/image/upload/v1630341867/GameFeed2_cx9it3.jpg" height="400">
+<img src="https://res.cloudinary.com/danlsii8g/image/upload/v1630341869/GameFeed3_jzkwql.jpg" height="400">
+<img src="https://res.cloudinary.com/danlsii8g/image/upload/v1630341872/GameFeed4_gyjtrn.jpg" height="400">
+<img src="https://res.cloudinary.com/danlsii8g/image/upload/v1630341869/GameFeed5_ljqugh.jpg" height="400">
 
 ## MVP
 
