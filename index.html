@@ -4,11 +4,54 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script defer src="index.js"></script>
   <title>GameFeed</title>
 </head>
 <body>
-  
+  <nav>
+    <div class="nav-left title">GameFeed</div>
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav about-button">About</a>
+    <a class="nav">Features</a>
+    <a class="nav contact-button">Contact</a>
+  </nav>
+  <main>
+    <div id="home">
+      <form id="form"> 
+        <input type="search" id="query" name="q" placeholder="Search...">
+        <select id="cars" name="cars">
+          <option disabled selected value> Genre </option>
+        </select>
+        <button id="submit">Search</button>
+      </form>
+      <div id="games">
+        
+      </div>
+    </div>
+    <div id="about">
+      <p>This is the About section</p>
+    </div>
+    <div id="contact">
+      <p>This is the Contact section</p>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-top">
+      <a class="footer-item" href="index.html">Home</a>
+      <a class="footer-item about-button">About</a>
+      <a class="footer-center">GameFeed</a>
+      <a class="footer-item">Features</a>
+      <a class="footer-item contact-button">Contact</a>
+    </div>
+    <hr width="50%" size="3">
+    <div class="footer-bottom">
+      ©Copyright. All rights reserved.
+    </div>
+  </footer>
 </body>
 </html>

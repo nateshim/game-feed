@@ -1,0 +1,145 @@
+:root {
+  --font: 'Titillium Web', sans-serif; 
+  --font-color: #E8EDDF;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(43, 45, 66, 0.6) 0%, #333533 100%);
+  background-repeat:no-repeat, repeat, repeat;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+}
+
+button {
+  cursor:pointer
+}
+
+footer {
+  background: #333533;
+  color: var(--font-color);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font);
+  align-items: center;
+  mix-blend-mode: normal;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+nav {
+  background: linear-gradient(180deg, #C1CEFE 0%, rgba(193, 206, 254, 0) 100%);
+  color: var(--font-color);
+  display: flex;
+  font-family: var(--font);
+  justify-content: flex-end;
+  mix-blend-mode: normal;
+}
+
+.footer-bottom {
+  padding: 10px;
+}
+
+.footer-center {
+  cursor: default;
+  font-size: 30px;
+  padding: 20px;
+}
+.footer-item {
+  font-size: 20px;
+  padding: 20px;
+}
+
+.footer-top {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 30px;
+}
+
+.game-img {
+  box-shadow: 8px 8px 8px #333533;
+}
+.game-img:hover {
+  animation-duration: .6s;
+  animation-name: springIn;
+  animation-fill-mode: forwards;
+}
+.game-img:not(:hover) {
+  animation-duration: .2s;
+  animation-name: springOut;
+  animation-fill-mode: forwards;
+}
+
+.game-container {
+  padding: 10px;
+}
+
+.nav {
+  margin: 20px;
+  font-size: 30px;
+}
+
+.nav-left {
+  margin: 10px auto 20px 20px;
+}
+
+.title {
+  cursor: default;
+  font-size: 40px;
+}
+
+#about {
+  display: none;
+}
+
+#contact {
+  display: none;
+}
+
+#games {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 10px;
+}
+
+@keyframes springIn {
+  from {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.07);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  90% {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes springOut {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
