@@ -75,10 +75,10 @@ axios.get('https://api.igdb.com/v4/games', {
 
 ![alt text](/public/GameFeed.jpg)
 ![alt text](/public/GameFeed1.jpg)
-![alt text](/public/GameFeed2.jpg)
-![alt text](/public/GameFeed3.jpg)
-![alt text](/public/GameFeed4.jpg)
-![alt text](/public/GameFeed5.jpg)
+<img src="public/GameFeed2.jpg" height="300">
+<img src="public/GameFeed3.jpg" height="300">
+<img src="public/GameFeed4.jpg" height="300">
+<img src="public/GameFeed5.jpg" height="300">
 
 ## MVP
 
@@ -107,12 +107,18 @@ axios.get('https://api.igdb.com/v4/games', {
 ## Priority Matrix
 ---
 
+![](https://res.cloudinary.com/danlsii8g/image/upload/v1630341827/Untitled_rpkird.jpg)
+
 ## Timeframes
 
 |Component| Priority| Estimated Time | Time Invested | Actual Time |
 |-        |  :--:   |  :--:          |   :--:        |           -:|
-|HTML|M|3hrs|TBD|TBD|
+|Essential HTML|M|3hrs|TBD|TBD|
 |Axios|H|3hrs|TBD|TBD|
 |JS|H|3hrs|TBD|TBD|
-|CSS|L|3hrs|TBD|TBD|
+|Essential CSS|L|3hrs|TBD|TBD|
 |Responsive Behavior|H|3hrs|TBD|TBD|
+|Extra/Decorative HTML|L|3hrs|TBD|TBD|
+|Extra/Decorative CSS|L|3hrs|TBD|TBD|
+|Post-MVP Content|M|3hrs|TBD|TBD|
+
