@@ -73,6 +73,13 @@ axios.get('https://api.igdb.com/v4/games', {
 ## Wireframes
 ---
 
+![alt text](/public/GameFeed.jpg)
+![alt text](/public/GameFeed1.jpg)
+![alt text](/public/GameFeed2.jpg)
+![alt text](/public/GameFeed3.jpg)
+![alt text](/public/GameFeed4.jpg)
+![alt text](/public/GameFeed5.jpg)
+
 ## MVP
 
 * Create HTML/CSS/JavaScript for user interface to query search and display results
