@@ -49,6 +49,12 @@ nav {
   mix-blend-mode: normal;
 }
 
+p {
+  color: var(--font-color);
+  font-family: var(--font);
+  font-size: 20px;
+}
+
 .footer-bottom {
   padding: 10px;
 }
@@ -111,10 +117,31 @@ nav {
   display: none;
 }
 
+#form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 #games {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 10px;
+}
+
+#game-modal {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #333533;
+}
+
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 @keyframes springIn {
