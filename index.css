@@ -55,7 +55,31 @@ p {
   font-size: 20px;
 }
 
+.about-button {
+  cursor: pointer;
+}
+
+.about-text {
+  font-size: 30px;
+}
+
+.contact-button {
+  cursor: pointer;
+}
+
+.contact-text {
+  font-size: 30px;
+}
+
+.contact-link {
+  text-decoration: none;
+}
+.contact-link:hover {
+  text-decoration: underline;
+}
+
 .footer-bottom {
+  cursor: default;
   padding: 10px;
 }
 
@@ -71,6 +95,7 @@ p {
 
 .footer-top {
   align-items: center;
+  cursor: default;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -111,10 +136,12 @@ p {
 
 #about {
   display: none;
+  flex-direction: column;
 }
 
 #contact {
   display: none;
+  flex-direction: column;
 }
 
 #form {

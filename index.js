@@ -119,7 +119,7 @@ const getGameDevelopers = async (developers) => {
         }
       });
       console.log(gameDeveloper);
-      genreArray.push(gameDeveloper.data[0].name);
+      developerArray.push(gameDeveloper.data[0].name);
     }
     return developerArray;
   } catch (error) {
@@ -149,7 +149,7 @@ const getYearOfRelease = async (releaseDates) => {
   const releaseDatesArray = [];
   try {
     for (releaseDate of releaseDates) {
-      const response = axios.get(`${igdbUrl}/release_dates/${releaseDate}`, {
+      const response = await axios.get(`${igdbUrl}/release_dates/${releaseDate}`, {
         headers: {
           'Client-ID': clientID,
           'Authorization': `Bearer ${token}`,
@@ -190,7 +190,6 @@ const renderGameInfo = (game, genres, developers, releaseDates) => {
   const gameImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
   const gameTitle = game.name;
   const gameRating = game.rating;
-  const gameReleaseDates = game.release_dates;
 
   const gameModal = document.querySelector('#game-modal');
   const gamesContainer = document.querySelector('#games');
