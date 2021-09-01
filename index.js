@@ -1,4 +1,5 @@
 //CREDENTIALS
+const ytApiKey = 'AIzaSyCIwepbZwj1wIr0hut3S_nC09h6AKR2q7Q';
 const igdbUrl = 'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4'; 
 const clientID = '03ktyk7tynafougy2affcczbqjhoi7';
 const clientSecret = 'quuj42etoeh1fstmfiv9wpvhv9yq3p';
@@ -28,10 +29,6 @@ const getGames = async (userInput) => {
   try {
     renderLoadingScreen();
     const response = await axios.get(`${igdbUrl}/games`, {
-      headers: {
-        'Client-ID': clientID,
-        'Authorization': `Bearer ${token}`,
-      },
       params: {
         fields: 'cover.image_id, id',
         search: userInput,
@@ -54,12 +51,8 @@ const getGameInfo = async (gameID) => {
     //all ids are in the format id${gameID} (ex. id2707) so we use substring to remove the 'id' part of the string
     const id = gameID.substring(2);
     const response = await axios.get(`${igdbUrl}/games/${id}`, {
-      headers: {
-        'Client-ID': clientID,
-        'Authorization': `Bearer ${token}`,
-      },
       params: {
-        fields: 'cover.image_id, genres, involved_companies, name, rating, release_dates',
+        fields: 'cover.image_id, genres, involved_companies, name, rating, release_dates, screenshots.image_id, videos.video_id',
         limit: 1, 
       },
     });
@@ -67,7 +60,7 @@ const getGameInfo = async (gameID) => {
     console.log(response);
     const game = response.data[0];
     const [genres, developers, releaseDates] = await Promise.all([getGameGenres(game.genres), getGameDevelopers(game.involved_companies), getYearOfRelease(game.release_dates)]);
-    renderGameInfo(game, genres, developers, releaseDates);
+    renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id);
   } catch (error) {
     console.log(error);
   }
@@ -79,10 +72,6 @@ const getGameGenres = async (genres) => {
     await Promise.all(
       genres.map(async (genre) => {
         const response = await axios.get(`${igdbUrl}/genres/${genre}`, {
-          headers: {
-            'Client-ID': clientID,
-            'Authorization': `Bearer ${token}`,
-          },
           params: {
             fields: 'name',
             limit: 1,
@@ -103,10 +92,6 @@ const getGameDevelopers = async (developers) => {
     await Promise.all(
       developers.map(async (developer) => {
         const response = await axios.get(`${igdbUrl}/involved_companies/${developer}`, {
-          headers: {
-            'Client-ID': clientID,
-            'Authorization': `Bearer ${token}`,
-          },
           params: {
             fields: 'company',
             limit: 1,
@@ -134,10 +119,6 @@ const getGameDevelopers = async (developers) => {
 const getTenRandomGames = async (token) => {
   try {
     const response = await axios.get(`${igdbUrl}/games`, {
-      headers: {
-        'Client-ID': clientID,
-        'Authorization': `Bearer ${token}`,
-      },
       params: {
         fields: "name",
         limit: 10
@@ -154,10 +135,6 @@ const getYearOfRelease = async (releaseDates) => {
   try {
     const releaseDate = releaseDates[0];
     const response = await axios.get(`${igdbUrl}/release_dates/${releaseDate}`, {
-      headers: {
-        'Client-ID': clientID,
-        'Authorization': `Bearer ${token}`,
-      },
       params: {
         fields: "date",
         limit: 1
@@ -193,7 +170,7 @@ const renderGames = (games) => {
   });
 }
 
-const renderGameInfo = (game, genres, developers, releaseDates) => {
+const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   renderCurrScreen();
   const gameImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
   const gameTitle = game.name;
@@ -216,6 +193,18 @@ const renderGameInfo = (game, genres, developers, releaseDates) => {
   gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100";
   const gameModalYearOfRelease = document.querySelector('#game-year-of-release');
   gameModalYearOfRelease.innerText = releaseDates;
+  const gameVideo = document.createElement('iframe');
+  gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
+  gameVideo.allowFullscreen = true;
+  const gameModalVideos = document.querySelector('#game-modal-videos');
+  gameModalVideos.appendChild(gameVideo);
+  const gameModalScreenshots = document.querySelector('#game-modal-screenshots');
+  for (let i = 0; i < 3; i++) {
+    const screenShotImg = document.createElement('img');
+    screenShotImg.src = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.screenshots[i].image_id}.png`;
+    screenShotImg.classList.add('screen-shot-img');
+    gameModalScreenshots.appendChild(screenShotImg);
+  }
 
 }
 

@@ -58,6 +58,7 @@ p {
   color: var(--font-color);
   font-family: var(--font);
   font-size: 30px;
+  margin: 15px;
 }
 
 .about-button {
@@ -134,6 +135,11 @@ p {
   margin: 10px auto 20px 20px;
 }
 
+.screen-shot-img {
+  width: 285px;
+  height: 160px;
+}
+
 .title {
   cursor: default;
   font-size: 40px;
@@ -167,8 +173,7 @@ p {
 
 #game-modal {
   display: none;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  flex-direction: column;
   align-items: center;
   justify-items: center;
   background-color: #333533;
@@ -178,25 +183,45 @@ p {
   animation-duration: .2s;
   animation-name: springOut;
   animation-fill-mode: forwards;
+  box-shadow: 8px 8px 8px #242423;
   justify-self: center;
+  height: 100%;
 }
 #game-modal-image-container {
-  grid-row: 1 / span 1;
-  grid-column: 1 / span 1;
-  justify-self: end;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
 }
 
 #game-modal-info {
-  grid-row: 1 / span 1;
-  grid-column: 2 / span 1;
-  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
   padding: 10px;
 }
 
+#game-modal-screenshots-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#game-modal-screenshots {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 #game-modal-videos {
-  grid-row: 2 / span 1;
-  grid-column: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 #home {

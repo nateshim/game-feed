@@ -28,7 +28,7 @@
       <span class="circle"></span>
     </div>
     <div id="home">
-      <form id="form"> 
+      <form id="form" autocomplete="off"> 
         <input type="search" id="query" name="q" placeholder="Search...">
         <!-- <select id="cars" name="cars">
           <option disabled selected value> Genre </option>
@@ -44,13 +44,19 @@
         </div>
         <div id="game-modal-image-container">
           <img id="game-modal-image"/>
+          <div id="game-modal-info">
+            <p id="game-title">Game Title</p>
+            <p id="game-genres">Game Genres</p>
+            <p id="game-developer">Game Developer</p>
+            <p id="game-rating">Game Rating</p>
+            <p id="game-year-of-release">Game Year of Release</p>
+          </div>
         </div>
-        <div id="game-modal-info">
-          <p id="game-title">Game Title</p>
-          <p id="game-genres">Game Genres</p>
-          <p id="game-developer">Game Developer</p>
-          <p id="game-rating">Game Rating</p>
-          <p id="game-year-of-release">Game Year of Release</p>
+        <div id="game-modal-screenshots-container">
+          <p>Screenshots</p>
+          <div id="game-modal-screenshots">
+
+          </div>
         </div>
         <div id="game-modal-videos">
           <p>Videos</p>
