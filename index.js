@@ -196,6 +196,7 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   const gameVideo = document.createElement('iframe');
   gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
   gameVideo.allowFullscreen = true;
+  gameVideo.classList.add('game-video');
   const gameModalVideos = document.querySelector('#game-modal-videos');
   gameModalVideos.appendChild(gameVideo);
   const gameModalScreenshots = document.querySelector('#game-modal-screenshots');
