@@ -21,6 +21,12 @@
     <a class="nav contact-button">Contact</a>
   </nav>
   <main>
+    <div id="loading">
+      <span class="circle"></span>
+      <span class="circle"></span>
+      <span class="circle"></span>
+      <span class="circle"></span>
+    </div>
     <div id="home">
       <form id="form"> 
         <input type="search" id="query" name="q" placeholder="Search...">
@@ -33,7 +39,12 @@
         
       </div>
       <div id="game-modal">
-        <img id="game-modal-image"/>
+        <div id="back-button">
+          <button>Back</button>
+        </div>
+        <div id="game-modal-image-container">
+          <img id="game-modal-image"/>
+        </div>
         <div id="game-modal-info">
           <p id="game-title">Game Title</p>
           <p id="game-genres">Game Genres</p>

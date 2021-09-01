@@ -18,7 +18,12 @@ body {
 }
 
 button {
-  cursor:pointer
+  cursor:pointer;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 20px;
+  color: var(--font-color);
 }
 
 footer {
@@ -52,7 +57,7 @@ nav {
 p {
   color: var(--font-color);
   font-family: var(--font);
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .about-button {
@@ -139,6 +144,10 @@ p {
   flex-direction: column;
 }
 
+#back-button {
+  position: absolute;
+}
+
 #contact {
   display: none;
   flex-direction: column;
@@ -158,10 +167,36 @@ p {
 
 #game-modal {
   display: none;
-  flex-direction: column;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   background-color: #333533;
+}
+
+#game-modal-image {
+  animation-duration: .2s;
+  animation-name: springOut;
+  animation-fill-mode: forwards;
+  justify-self: center;
+}
+#game-modal-image-container {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
+  justify-self: end;
+  padding: 20px;
+}
+
+#game-modal-info {
+  grid-row: 1 / span 1;
+  grid-column: 2 / span 1;
+  justify-self: start;
+  padding: 10px;
+}
+
+#game-modal-videos {
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #home {
@@ -169,6 +204,81 @@ p {
   flex-direction: column;
   justify-content: center;
   width: 100%;
+}
+
+#loading {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#loading .circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  animation: move 500ms linear 0ms infinite;
+  margin-right: 40px;
+}
+#loading .circle:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: grow 500ms linear 0ms infinite;
+}
+#loading .circle:last-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 0;
+  animation: grow 500ms linear 0s infinite reverse;
+}
+
+#loading .text {
+  font-family: var(--font);
+  color: var(--font-color);
+  font-size: 20px;
+}
+
+#submit {
+  background: #624CAB;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px #333533;
+  padding: 5px;
+}
+
+#query {
+  border-radius: 5px;
+  border: none;
+  box-shadow: 2px 2px 2px #333533;
+  color: #333533;
+  font-family: var(--font);
+  font-size: 20px;
+  padding: 5px;
+}
+#query:focus {
+  outline: none;
+  box-shadow: 0 0 0 2pt #624CAB;
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+@keyframes move {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(45px);
+  }
 }
 
 @keyframes springIn {

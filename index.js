@@ -26,6 +26,7 @@ const getCredentials = async () => {
 //AXIOS GET FUNCTIONS
 const getGames = async (userInput) => {
   try {
+    renderLoadingScreen();
     const response = await axios.get(`${igdbUrl}/games`, {
       headers: {
         'Client-ID': clientID,
@@ -38,8 +39,9 @@ const getGames = async (userInput) => {
       }
     });
     const games = response.data;
-    console.log("These are the games");
-    console.log(games);
+    if (games.length === 0) {
+      if(!alert('No games found for that title...')){window.location.reload();}
+    }
     renderGames(games);
   } catch (error) {
     console.log(error);
@@ -48,6 +50,7 @@ const getGames = async (userInput) => {
 
 const getGameInfo = async (gameID) => {
   try {
+    renderLoadingScreen();
     //all ids are in the format id${gameID} (ex. id2707) so we use substring to remove the 'id' part of the string
     const id = gameID.substring(2);
     const response = await axios.get(`${igdbUrl}/games/${id}`, {
@@ -63,9 +66,7 @@ const getGameInfo = async (gameID) => {
     console.log("This is the game selected");
     console.log(response);
     const game = response.data[0];
-    const genres = await getGameGenres(game.genres);
-    const developers = await getGameDevelopers(game.involved_companies);
-    const releaseDates = await getYearOfRelease(game.release_dates);
+    const [genres, developers, releaseDates] = await Promise.all([getGameGenres(game.genres), getGameDevelopers(game.involved_companies), getYearOfRelease(game.release_dates)]);
     renderGameInfo(game, genres, developers, releaseDates);
   } catch (error) {
     console.log(error);
@@ -75,19 +76,21 @@ const getGameInfo = async (gameID) => {
 const getGameGenres = async (genres) => {
   const genreArray = [];
   try {
-    for (genre of genres) {
-      const response = await axios.get(`${igdbUrl}/genres/${genre}`, {
-        headers: {
-          'Client-ID': clientID,
-          'Authorization': `Bearer ${token}`,
-        },
-        params: {
-          fields: 'name',
-          limit: 1,
-        }
-      });
-      genreArray.push(response.data[0].name);
-    }
+    await Promise.all(
+      genres.map(async (genre) => {
+        const response = await axios.get(`${igdbUrl}/genres/${genre}`, {
+          headers: {
+            'Client-ID': clientID,
+            'Authorization': `Bearer ${token}`,
+          },
+          params: {
+            fields: 'name',
+            limit: 1,
+          }
+        });
+        genreArray.push(response.data[0].name);
+      })
+    );
     return genreArray;
   } catch (error) {
     console.log(error);
@@ -97,30 +100,31 @@ const getGameGenres = async (genres) => {
 const getGameDevelopers = async (developers) => {
   const developerArray = [];
   try {
-    for (developer of developers) {
-      const response = await axios.get(`${igdbUrl}/involved_companies/${developer}`, {
-        headers: {
-          'Client-ID': clientID,
-          'Authorization': `Bearer ${token}`,
-        },
-        params: {
-          fields: 'company',
-          limit: 1,
-        }
-      });
-      const gameDeveloper = await axios.get(`${igdbUrl}/companies/${response.data[0].company}`, {
-        headers: {
-          'Client-ID': clientID,
-          'Authorization': `Bearer ${token}`
-        },
-        params: {
-          fields: 'name',
-          limit: 1,
-        }
-      });
-      console.log(gameDeveloper);
-      developerArray.push(gameDeveloper.data[0].name);
-    }
+    await Promise.all(
+      developers.map(async (developer) => {
+        const response = await axios.get(`${igdbUrl}/involved_companies/${developer}`, {
+          headers: {
+            'Client-ID': clientID,
+            'Authorization': `Bearer ${token}`,
+          },
+          params: {
+            fields: 'company',
+            limit: 1,
+          }
+        });
+        const gameDeveloper = await axios.get(`${igdbUrl}/companies/${response.data[0].company}`, {
+          headers: {
+            'Client-ID': clientID,
+            'Authorization': `Bearer ${token}`
+          },
+          params: {
+            fields: 'name',
+            limit: 1,
+          }
+        });
+        developerArray.push(gameDeveloper.data[0].name);
+      })
+    )
     return developerArray;
   } catch (error) {
     console.log(error);
@@ -148,19 +152,21 @@ const getTenRandomGames = async (token) => {
 const getYearOfRelease = async (releaseDates) => {
   const releaseDatesArray = [];
   try {
-    for (releaseDate of releaseDates) {
-      const response = await axios.get(`${igdbUrl}/release_dates/${releaseDate}`, {
-        headers: {
-          'Client-ID': clientID,
-          'Authorization': `Bearer ${token}`,
-        },
-        params: {
-          fields: "date",
-          limit: 1
-        }
-      });
-      releaseDatesArray.push(response.data[0].date);
-    }
+    const releaseDate = releaseDates[0];
+    const response = await axios.get(`${igdbUrl}/release_dates/${releaseDate}`, {
+      headers: {
+        'Client-ID': clientID,
+        'Authorization': `Bearer ${token}`,
+      },
+      params: {
+        fields: "date",
+        limit: 1
+      }
+    });
+    //Parsing tings
+    const date = new Date(response.data[0].date*1000);
+    date.setDate(date.getDate() + 1);
+    releaseDatesArray.push(date.toLocaleDateString("default", {month: 'long', day: 'numeric', year: 'numeric'}));
     return releaseDatesArray;
   } catch (error) {
     console.log(error);
@@ -171,6 +177,7 @@ const getYearOfRelease = async (releaseDates) => {
 const renderGames = (games) => {
   const gamesDiv = document.querySelector('#games');
   searchForm.style.display = 'none';
+  renderCurrScreen();
   games.forEach((game) => {
     const gameContainer = document.createElement('div');
     const gameImg = document.createElement('img');
@@ -187,13 +194,14 @@ const renderGames = (games) => {
 }
 
 const renderGameInfo = (game, genres, developers, releaseDates) => {
+  renderCurrScreen();
   const gameImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
   const gameTitle = game.name;
   const gameRating = game.rating;
 
   const gameModal = document.querySelector('#game-modal');
   const gamesContainer = document.querySelector('#games');
-  gameModal.style.display = "flex";
+  gameModal.style.display = "grid";
   gamesContainer.style.display = "none";
 
   const gameModalImage = document.querySelector('#game-modal-image');
@@ -221,12 +229,37 @@ const renderGenres = (genres) => {
   })
 }
 
+const renderLoadingScreen = () => {
+  const loadingScreen = document.querySelector('#loading');
+  loadingScreen.style.display = 'flex';
+  const currScreen = document.querySelector('#home');
+  currScreen.style.display = 'none';
+}
+
+const renderCurrScreen = () => {
+  const loadingScreen = document.querySelector('#loading');
+  loadingScreen.style.display = 'none';
+  const currScreen = document.querySelector('#home');
+  currScreen.style.display = 'flex';
+}
+
+const closeGameModal = () => {
+  const gameModal = document.querySelector('#game-modal');
+  const gamesPage = document.querySelector('#games');
+  gameModal.style.display = 'none';
+  gamesPage.style.display = 'grid';
+}
+
 //EVENT HANDLERS
 const handleSearch = (event) => {
   event.preventDefault();
   const inputEl = document.querySelector('#query');
   const userInput = inputEl.value;
-  getGames(userInput);
+  if (!userInput) {
+    alert("Please put in a title");
+  } else {
+    getGames(userInput);
+  }
 }
 
 const toggleGameInfo = (event) => {
@@ -253,6 +286,8 @@ const toggleSection = (event) => {
 }
 
 //EVENT LISTENERS AND ONLOAD FUNCTIONS
+const backButton = document.querySelector('#back-button');
+backButton.addEventListener('click', closeGameModal);
 searchForm.addEventListener('submit', handleSearch);
 aboutButtons.forEach((aboutButton) => {
   aboutButton.addEventListener('click', toggleSection);
