@@ -277,6 +277,12 @@ p {
   font-size: 20px;
 }
 
+#search-pages {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 #submit {
   background: #624CAB;
   border-radius: 5px;

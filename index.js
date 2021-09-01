@@ -4,6 +4,7 @@ const igdbUrl = 'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4';
 const clientID = '03ktyk7tynafougy2affcczbqjhoi7';
 const clientSecret = 'quuj42etoeh1fstmfiv9wpvhv9yq3p';
 let token = '';
+let userInput = '';
 
 //GLOBAL VARIABLES
 const searchForm = document.querySelector('#form');
@@ -25,13 +26,14 @@ const getCredentials = async () => {
 } 
 
 //AXIOS GET FUNCTIONS
-const getGames = async (userInput) => {
+const getGames = async (userInput, page) => {
   try {
     renderLoadingScreen();
     const response = await axios.get(`${igdbUrl}/games`, {
       params: {
         fields: 'cover.image_id, id',
         search: userInput,
+        offset: 20 * page,
         limit: 20
       }
     });
@@ -153,6 +155,7 @@ const getYearOfRelease = async (releaseDates) => {
 //RENDER FUNCTIONS
 const renderGames = (games) => {
   const gamesDiv = document.querySelector('#games');
+  gamesDiv.innerHTML = "";
   searchForm.style.display = 'none';
   renderCurrScreen();
   games.forEach((game) => {
@@ -168,6 +171,21 @@ const renderGames = (games) => {
     gameContainer.addEventListener('click', toggleGameInfo);
     gamesDiv.appendChild(gameContainer);
   });
+  renderPages();
+}
+
+const renderPages = () => {
+  const searchPages = document.querySelector('#search-pages');
+  searchPages.innerHTML = "";
+  for (let i = 0; i < 10; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.classList.add('search-page-button');
+    pageButton.id = i;
+    pageButton.innerText = i+1;
+    pageButton.addEventListener('click', handlePageSearch);
+    searchPages.appendChild(pageButton);
+  }
+  
 }
 
 const clearGameModal = () => {
@@ -268,12 +286,16 @@ const closeGameModal = () => {
 const handleSearch = (event) => {
   event.preventDefault();
   const inputEl = document.querySelector('#query');
-  const userInput = inputEl.value;
+  userInput = inputEl.value;
   if (!userInput) {
     alert("Please put in a title");
   } else {
-    getGames(userInput);
+    getGames(userInput, 0);
   }
+}
+
+const handlePageSearch = (event) => {
+  getGames(userInput, event.target.id);
 }
 
 const toggleGameInfo = (event) => {
