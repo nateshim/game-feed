@@ -170,8 +170,19 @@ const renderGames = (games) => {
   });
 }
 
+const clearGameModal = () => {
+  const gameModalInfo = document.querySelector('#game-modal-info');
+  const gameModalScreenshots = document.querySelector('#game-modal-screenshots');
+  const gameModalVideo = document.querySelector('#game-modal-videos');
+  gameModalInfo.innerHTML = "";
+  gameModalScreenshots.innerHTML = "";
+  gameModalVideo.innerHTML = "";
+
+}
+
 const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   renderCurrScreen();
+  clearGameModal();
   const gameImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
   const gameTitle = game.name;
   const gameRating = game.rating;
@@ -183,22 +194,25 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
 
   const gameModalImage = document.querySelector('#game-modal-image');
   gameModalImage.src = gameImg;
-  const gameModalTitle = document.querySelector('#game-title');
+
+  const gameModalInfo = document.querySelector('#game-modal-info');
+  const gameModalTitle = document.createElement('p');
+  gameModalTitle.id = '#game-title';
   gameModalTitle.innerText = gameTitle;
-  const gameModalGenres = document.querySelector('#game-genres');
+  const gameModalGenres = document.createElement('p');
+  gameModalGenres.id = '#game-genres';
   gameModalGenres.innerText = genres;
-  const gameModalDeveloper = document.querySelector('#game-developer');
+  const gameModalDeveloper = document.createElement('p');
+  gameModalDeveloper.id = '#game-developer';
   gameModalDeveloper.innerText = developers;
-  const gameModalRating = document.querySelector('#game-rating');
+  const gameModalRating = document.createElement('p');
+  gameModalRating.id = '#game-rating';
   gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100";
-  const gameModalYearOfRelease = document.querySelector('#game-year-of-release');
+  const gameModalYearOfRelease = document.createElement('p');
+  gameModalYearOfRelease.id = '#game-year-of-release';
   gameModalYearOfRelease.innerText = releaseDates;
-  const gameVideo = document.createElement('iframe');
-  gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
-  gameVideo.allowFullscreen = true;
-  gameVideo.classList.add('game-video');
-  const gameModalVideos = document.querySelector('#game-modal-videos');
-  gameModalVideos.appendChild(gameVideo);
+  gameModalInfo.append(gameModalTitle, gameModalGenres, gameModalDeveloper, gameModalRating, gameModalYearOfRelease);
+
   const gameModalScreenshots = document.querySelector('#game-modal-screenshots');
   for (let i = 0; i < 3; i++) {
     const screenShotImg = document.createElement('img');
@@ -206,6 +220,16 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
     screenShotImg.classList.add('screen-shot-img');
     gameModalScreenshots.appendChild(screenShotImg);
   }
+
+  const gameVideoTitle = document.createElement('p');
+  gameVideoTitle.innerText = 'Video';
+  const gameVideo = document.createElement('iframe');
+  gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
+  gameVideo.allowFullscreen = true;
+  gameVideo.classList.add('game-video');
+  const gameModalVideos = document.querySelector('#game-modal-videos');
+  gameModalVideos.appendChild(gameVideoTitle);
+  gameModalVideos.appendChild(gameVideo);
 
 }
 
