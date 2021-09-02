@@ -1,3 +1,20 @@
+(function() {
+  var cors_api_host = 'cors-anywhere.herokuapp.com';
+  var cors_api_url = 'https://' + cors_api_host + '/';
+  var slice = [].slice;
+  var origin = window.location.protocol + '//' + window.location.host;
+  var open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function() {
+      var args = slice.call(arguments);
+      var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
+      if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
+          targetOrigin[1] !== cors_api_host) {
+          args[1] = cors_api_url + args[1];
+      }
+      return open.apply(this, args);
+  };
+})();
+
 //CREDENTIALS
 const igdbUrl = 'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4'; 
 const clientID = '03ktyk7tynafougy2affcczbqjhoi7';
@@ -41,6 +58,19 @@ const getGames = async (userInput, page) => {
       if(!alert('No games found for that title...')){window.location.reload();}
     }
     renderGames(games);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getNumOfGames = async (userInput) => {
+  try {
+    const response = await axios.get(`${igdbUrl}/games/count`, {
+      params: {
+        search: userInput
+      }
+    });
+    console.log(response);
   } catch (error) {
     console.log(error);
   }
@@ -291,6 +321,7 @@ const handleSearch = (event) => {
     alert("Please put in a title");
   } else {
     getGames(userInput, 0);
+    getNumOfGames(userInput);
   }
 }
 
