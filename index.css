@@ -50,6 +50,7 @@ nav {
   color: var(--font-color);
   display: flex;
   font-family: var(--font);
+  font-size: 30px;
   justify-content: flex-end;
   mix-blend-mode: normal;
 }
@@ -136,7 +137,6 @@ p {
 
 .nav {
   margin: 20px;
-  font-size: 30px;
 }
 
 .nav-left {
@@ -347,5 +347,11 @@ p {
   }
   to {
     transform: scale(1);
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (min-device-height : 568px) { 
+  nav {
+    font-size: 20px;
   }
 }
