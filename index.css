@@ -127,6 +127,10 @@ p {
   font-size: 30px;
 }
 
+.features-title-link:hover, .features-title-link:active {
+  text-decoration: underline;
+}
+
 .features-link {
   text-decoration: none;
 }
