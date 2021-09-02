@@ -373,7 +373,7 @@ const closeGameModal = () => {
 //EVENT HANDLERS
 const handleSearch = (event) => {
   event.preventDefault();
-  const formID = event.path[0].id;
+  const formID = event.target.id;
   userInput = event.target[0].value;
   if (!userInput) {
     alert("Please put in a title");
