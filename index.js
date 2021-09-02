@@ -208,30 +208,33 @@ const getYearOfRelease = async (releaseDates) => {
     console.log(error);
   }
 }
-const check = (game) => {
-  if (!game.cover) if(!alert('No games found for that title...')){window.location.reload();}
-  else if (!game.cover.image_id) if(!alert('No games found for that title...')){window.location.reload();}
-  else if (!game.id) if(!alert('No games found for that title...')){window.location.reload();}
-}
+
 //RENDER FUNCTIONS
 const renderGames = (games) => {
   const gamesDiv = document.querySelector('#games');
   gamesDiv.innerHTML = "";
   searchForm.style.display = 'none';
   renderCurrScreen();
+  let errorCounter = 0;
   games.forEach((game) => {
-    check(game);
-    const gameContainer = document.createElement('div');
-    const gameImg = document.createElement('img');
-    const gameCoverUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
-    
-    gameImg.src = gameCoverUrl;
-    gameImg.classList.add('game-img');
-    gameImg.setAttribute('id',`id${game.id}`);
-    gameContainer.appendChild(gameImg);
-    gameContainer.classList.add('game-container');
-    gameContainer.addEventListener('click', toggleGameInfo);
-    gamesDiv.appendChild(gameContainer);
+    if(game.cover) {
+      const gameContainer = document.createElement('div');
+      const gameImg = document.createElement('img');
+      const gameCoverUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
+      
+      gameImg.src = gameCoverUrl;
+      gameImg.classList.add('game-img');
+      gameImg.setAttribute('id',`id${game.id}`);
+      gameContainer.appendChild(gameImg);
+      gameContainer.classList.add('game-container');
+      gameContainer.addEventListener('click', toggleGameInfo);
+      gamesDiv.appendChild(gameContainer);
+    } else {
+      errorCounter += 1;
+    }
+    if(errorCounter === games.length) {
+      if(!alert('No games found for that title...')){window.location.reload();}
+    }
   });
   renderPages();
 }
