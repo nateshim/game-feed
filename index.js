@@ -1,3 +1,4 @@
+//ENABLE CORS-ANYWHERE ONLOAD
 (function() {
   var cors_api_host = 'cors-anywhere.herokuapp.com';
   var cors_api_url = 'https://' + cors_api_host + '/';
@@ -16,7 +17,7 @@
 })();
 
 //CREDENTIALS
-const igdbUrl = 'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4'; 
+const igdbUrl = 'https://api.igdb.com/v4'; 
 const clientID = '03ktyk7tynafougy2affcczbqjhoi7';
 const clientSecret = 'quuj42etoeh1fstmfiv9wpvhv9yq3p';
 let token = '';
