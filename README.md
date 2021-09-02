@@ -99,10 +99,10 @@ axios.get('https://api.igdb.com/v4/games', {
 
 |Day| Deliverable| Status |
 |-      |:--:|   -:|
-|8/30/21| Project Approval/Backend | Pending |
-|8/31/21| Backend/Frontend | Pending |
-|9/1/21| Frontend/Styling | Pending |
-|9/2/21| Post-MVP Content | Pending |
+|8/30/21| Project Approval/Backend | Done |
+|8/31/21| Backend/Frontend | Done |
+|9/1/21| Frontend/Styling | Done |
+|9/2/21| Post-MVP Content | Partial |
 
 ## Priority Matrix
 ---
@@ -113,12 +113,13 @@ axios.get('https://api.igdb.com/v4/games', {
 
 |Component| Priority| Estimated Time | Time Invested | Actual Time |
 |-        |  :--:   |  :--:          |   :--:        |           -:|
-|Essential HTML|M|3hrs|TBD|TBD|
-|Axios|H|3hrs|TBD|TBD|
-|JS|H|3hrs|TBD|TBD|
-|Essential CSS|L|3hrs|TBD|TBD|
-|Responsive Behavior|H|3hrs|TBD|TBD|
-|Extra/Decorative HTML|L|3hrs|TBD|TBD|
-|Extra/Decorative CSS|L|3hrs|TBD|TBD|
-|Post-MVP Content|M|3hrs|TBD|TBD|
+|Essential HTML|M|3hrs|3hrs|6hrs|
+|Axios|H|3hrs|1hr|2hrs|
+|JS|H|3hrs|3hrs|6hrs|
+|Essential CSS|L|3hrs|1hr|2hrs|
+|Responsive Behavior|H|3hrs|3hrs|2hr|
+|Extra/Decorative HTML|L|3hrs|2hrs|4hrs|
+|Extra/Decorative CSS|L|3hrs|2hrs|5hrs|
+|Post-MVP Content|M|3hrs|3hrs|8hrs|
+|Total| H | 24hrs|18hrs|35hrs|
 
