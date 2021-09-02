@@ -242,7 +242,7 @@ const renderGames = (games) => {
 const renderPages = () => {
   const searchPages = document.querySelector('#search-pages');
   searchPages.innerHTML = "";
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 5; i++) {
     const pageButton = document.createElement('button');
     pageButton.classList.add('search-page-button');
     pageButton.id = i;
