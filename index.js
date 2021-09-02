@@ -61,6 +61,7 @@ const getGameInfo = async (gameID) => {
     console.log(response);
     const game = response.data[0];
     const [genres, developers, releaseDates] = await Promise.all([getGameGenres(game.genres), getGameDevelopers(game.involved_companies), getYearOfRelease(game.release_dates)]);
+    //check if videos actually has something
     renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id);
   } catch (error) {
     console.log(error);
