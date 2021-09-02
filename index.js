@@ -6,9 +6,13 @@ let token = '';
 let userInput = '';
 
 //GLOBAL VARIABLES
-const searchForm = document.querySelector('#form');
+const searchForm = document.querySelector('#search');
+const developerForm = document.querySelector('#developer');
 const aboutButtons = document.querySelectorAll('.about-button');
 const contactButtons = document.querySelectorAll('.contact-button');
+const featuresButton = document.querySelector('.features-button');
+const featuresTitleLinks = document.querySelectorAll('.features-title-link');
+const featuresDeveloperLinks = document.querySelectorAll('.features-developer-link');
 
 //OAUTH
 const getCredentials = async () => {
@@ -37,10 +41,45 @@ const getGames = async (userInput, page) => {
       }
     });
     const games = response.data;
+    console.log(games);
     if (games.length === 0) {
       if(!alert('No games found for that title...')){window.location.reload();}
     }
     renderGames(games);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getDeveloperGames = async (userInput, page) => {
+  const gamesArray = [];
+  try {
+    renderLoadingScreen();
+    const response = await axios.get(`${igdbUrl}/companies`, {
+      params: {
+        fields: 'developed',
+        name: userInput,
+        offset: 20 * page,
+        limit: 20
+      }
+    });
+    console.log(response);
+    const games = response.data[0].developed;
+    if (games.length === 0) {
+      if(!alert('No games found for that title...')){window.location.reload();}
+    }
+    await Promise.all(
+      games.map(async (game) => {
+        const response = await axios.get(`${igdbUrl}/games/${game}`, {
+          params: {
+            fields: 'cover.image_id, id',
+            limit: 1,
+          }
+        });
+        gamesArray.push(response.data[0]);
+      })
+    )
+    renderGames(gamesArray);
   } catch (error) {
     console.log(error);
   }
@@ -75,7 +114,9 @@ const getGameInfo = async (gameID) => {
     const game = response.data[0];
     const [genres, developers, releaseDates] = await Promise.all([getGameGenres(game.genres), getGameDevelopers(game.involved_companies), getYearOfRelease(game.release_dates)]);
     //check if videos actually has something
-    renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id);
+    (game.videos) ? 
+    renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id) :
+    renderGameInfo(game, genres, developers, releaseDates, 'No video found') ;
   } catch (error) {
     console.log(error);
   }
@@ -92,7 +133,7 @@ const getGameGenres = async (genres) => {
             limit: 1,
           }
         });
-        genreArray.push(response.data[0].name);
+        (response.data) ? genreArray.push(response.data[0].name) : genreArray.push('No genre found');
       })
     );
     return genreArray;
@@ -122,7 +163,7 @@ const getGameDevelopers = async (developers) => {
             limit: 1,
           }
         });
-        developerArray.push(gameDeveloper.data[0].name);
+        (gameDeveloper.data) ? developerArray.push(gameDeveloper.data[0].name) : developerArray.push('No developer found');
       })
     )
     return developerArray;
@@ -155,16 +196,23 @@ const getYearOfRelease = async (releaseDates) => {
         limit: 1
       }
     });
-    //Parsing tings
-    const date = new Date(response.data[0].date*1000);
-    date.setDate(date.getDate() + 1);
-    releaseDatesArray.push(date.toLocaleDateString("default", {month: 'long', day: 'numeric', year: 'numeric'}));
+    if (response.data.length > 0) {
+      const date = new Date(response.data[0].date*1000);
+      date.setDate(date.getDate() + 1);
+      releaseDatesArray.push(date.toLocaleDateString("default", {month: 'long', day: 'numeric', year: 'numeric'}));
+    } else {
+      releaseDatesArray.push('No year of release found.');
+    }
     return releaseDatesArray;
   } catch (error) {
     console.log(error);
   }
 }
-
+const check = (game) => {
+  if (!game.cover) if(!alert('No games found for that title...')){window.location.reload();}
+  else if (!game.cover.image_id) if(!alert('No games found for that title...')){window.location.reload();}
+  else if (!game.id) if(!alert('No games found for that title...')){window.location.reload();}
+}
 //RENDER FUNCTIONS
 const renderGames = (games) => {
   const gamesDiv = document.querySelector('#games');
@@ -172,6 +220,7 @@ const renderGames = (games) => {
   searchForm.style.display = 'none';
   renderCurrScreen();
   games.forEach((game) => {
+    check(game);
     const gameContainer = document.createElement('div');
     const gameImg = document.createElement('img');
     const gameCoverUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
@@ -212,7 +261,7 @@ const clearGameModal = () => {
 }
 
 const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
-  renderCurrScreen();
+  renderModal();
   clearGameModal();
   const gameImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
   const gameTitle = game.name;
@@ -238,7 +287,9 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   gameModalDeveloper.innerText = developers;
   const gameModalRating = document.createElement('p');
   gameModalRating.id = '#game-rating';
-  gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100";
+  (gameRating) ? 
+  gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100" : 
+  gameModalRating.innerText = "Rating not found...";
   const gameModalYearOfRelease = document.createElement('p');
   gameModalYearOfRelease.id = '#game-year-of-release';
   gameModalYearOfRelease.innerText = releaseDates;
@@ -254,10 +305,16 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
 
   const gameVideoTitle = document.createElement('p');
   gameVideoTitle.innerText = 'Video';
-  const gameVideo = document.createElement('iframe');
-  gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
-  gameVideo.allowFullscreen = true;
-  gameVideo.classList.add('game-video');
+  let gameVideo = '';
+  if (videoID === 'No video found') {
+    gameVideo = document.createElement('p');
+    gameVideo.innerText = videoID;
+  } else {
+    gameVideo = document.createElement('iframe');
+    gameVideo.src = `https://www.youtube.com/embed/${videoID}`;
+    gameVideo.allowFullscreen = true;
+    gameVideo.classList.add('game-video');
+  }
   const gameModalVideos = document.querySelector('#game-modal-videos');
   gameModalVideos.appendChild(gameVideoTitle);
   gameModalVideos.appendChild(gameVideo);
@@ -288,23 +345,40 @@ const renderCurrScreen = () => {
   currScreen.style.display = 'flex';
 }
 
+const renderModal = () => {
+  const loadingScreen = document.querySelector('#loading');
+  loadingScreen.style.display = 'none';
+  const currScreen = document.querySelector('#home');
+  currScreen.style.display = 'flex';
+  const searchPages = document.querySelector('#search-pages');
+  searchPages.style.display = 'none';
+}
+
 const closeGameModal = () => {
   const gameModal = document.querySelector('#game-modal');
   const gamesPage = document.querySelector('#games');
+  const searchPages = document.querySelector('#search-pages');
   gameModal.style.display = 'none';
   gamesPage.style.display = 'grid';
+  searchPages.style.display = 'flex';
 }
 
 //EVENT HANDLERS
 const handleSearch = (event) => {
   event.preventDefault();
-  const inputEl = document.querySelector('#query');
-  userInput = inputEl.value;
+  const formID = event.path[0].id;
+  userInput = event.target[0].value;
   if (!userInput) {
     alert("Please put in a title");
   } else {
-    getGames(userInput, 0);
-    getNumOfGames(userInput);
+    if (formID === 'search') {
+      getGames(userInput, 0);
+      //getNumOfGames(userInput);
+    } else {
+      //it's developer
+      console.log("hello");
+      getDeveloperGames(userInput, 0);
+    }
   }
 }
 
@@ -321,16 +395,50 @@ const toggleSection = (event) => {
   const homeSection = document.querySelector('#home');
   const aboutSection = document.querySelector('#about');
   const contactSection = document.querySelector('#contact');
+  const featuresSection = document.querySelector('#features');
   switch (event.target.classList[1]) {
     case 'about-button':
       homeSection.style.display = 'none';
       aboutSection.style.display = 'flex';
       contactSection.style.display = 'none';
+      featuresSection.style.display = 'none';
       break;
     case 'contact-button':
       homeSection.style.display = 'none';
       aboutSection.style.display = 'none';
       contactSection.style.display = 'flex';
+      featuresSection.style.display = 'none';
+      break;
+    case 'features-button':
+      homeSection.style.display = 'none';
+      aboutSection.style.display = 'none';
+      contactSection.style.display = 'none';
+      featuresSection.style.display = 'flex';
+      break;
+
+  }
+}
+
+const toggleHome = () => {
+  const homeSection = document.querySelector('#home');
+  const aboutSection = document.querySelector('#about');
+  const contactSection = document.querySelector('#contact');
+  const featuresSection = document.querySelector('#features');
+  homeSection.style.display = 'flex';
+  aboutSection.style.display = 'none';
+  contactSection.style.display = 'none';
+  featuresSection.style.display = 'none';
+}
+
+const toggleForm = (event) => {
+  switch (event.target.classList[0]) {
+    case 'features-title-link':
+      window.location.reload();
+      break;
+    case 'features-developer-link':
+      searchForm.style.display = 'none';
+      developerForm.style.display = 'flex';
+      toggleHome();
       break;
   }
 }
@@ -339,11 +447,19 @@ const toggleSection = (event) => {
 const backButton = document.querySelector('#back-button');
 backButton.addEventListener('click', closeGameModal);
 searchForm.addEventListener('submit', handleSearch);
+developerForm.addEventListener('submit', handleSearch);
 aboutButtons.forEach((aboutButton) => {
   aboutButton.addEventListener('click', toggleSection);
 });
 contactButtons.forEach((contactButton) => {
   contactButton.addEventListener('click', toggleSection);
-})
+});
+featuresButton.addEventListener('click', toggleSection);
+featuresTitleLinks.forEach((featuresTitleLink) => {
+  featuresTitleLink.addEventListener('click', toggleForm);
+});
+featuresDeveloperLinks.forEach((featuresDeveloperLink) => {
+  featuresDeveloperLink.addEventListener('click', toggleForm);
+});
 
 getCredentials();

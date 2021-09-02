@@ -17,7 +17,13 @@
     <div class="nav-left title">GameFeed</div>
     <a class="nav" href="index.html">Home</a>
     <a class="nav about-button">About</a>
-    <a class="nav">Features</a>
+    <div class="dropdown">
+      <a class="nav">Features</a>
+      <div class="dropdown-content">
+        <a class="features-title-link">Title</a>
+        <!-- <a class="features-developer-link">Developer</a> -->
+      </div>
+    </div>
     <a class="nav contact-button">Contact</a>
   </nav>
   <main>
@@ -28,12 +34,13 @@
       <span class="circle"></span>
     </div>
     <div id="home">
-      <form id="form" autocomplete="off"> 
-        <input type="search" id="query" name="q" placeholder="Search...">
-        <!-- <select id="cars" name="cars">
-          <option disabled selected value> Genre </option>
-        </select> -->
-        <button id="submit">Search</button>
+      <form class="form" id="search" autocomplete="off"> 
+        <input type="search" class="query" name="q" placeholder="Search Title...">
+        <button class="submit">Search</button>
+      </form>
+      <form class="form" id="developer" autocomplete="off"> 
+        <input type="search" class="query" name="developer-query" placeholder="Search Developer...">
+        <button class="submit">Search</button>
       </form>
       <div id="games">
         
@@ -74,13 +81,17 @@
       <p class="contact-text">For inquiries, feel free to send an email to <a class="contact-link" href = "mailto:nateshim@gmail.com?subject=Question Regarding GameFeed" target="__blank">nateshim@gmail.com</a></p>
       <p class="contact-text">For bug reports, please direct an email <a class="contact-link" href = "mailto:nateshim@gmail.com?subject=GameFeed Bug Report" target="__blank">here</a></p>
     </div>
+    <div id="features">
+      <p class="features-text">Search by Title: <a class="features-title-link">Here</a></p>
+      <!-- <p class="features-text">Search by Developer: <a class="features-developer-link">Here</a></p> -->
+    </div>
   </main>
   <footer>
     <div class="footer-top">
       <a class="footer-item" href="index.html">Home</a>
       <a class="footer-item about-button">About</a>
       <a class="footer-center">GameFeed</a>
-      <a class="footer-item">Features</a>
+      <a class="footer-item features-button">Features</a>
       <a class="footer-item contact-button">Contact</a>
     </div>
     <hr width="50%" size="3">
