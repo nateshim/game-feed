@@ -1,5 +1,6 @@
 :root {
   --font: 'Titillium Web', sans-serif; 
+  --text-font: 'Open Sans', sans-serif;
   --font-color: #E8EDDF;
 }
 
@@ -353,6 +354,7 @@ p {
   background: #624CAB;
   border-radius: 5px;
   box-shadow: 2px 2px 2px #333533;
+  font-family: var(--text-font);
   padding: 5px;
 }
 
@@ -361,9 +363,9 @@ p {
   border: none;
   box-shadow: 2px 2px 2px #333533;
   color: #333533;
-  font-family: var(--font);
+  font-family: var(--text-font);
   font-size: 20px;
-  padding: 5px;
+  padding: 5px 20px 5px 5px;
 }
 .query:focus {
   outline: none;

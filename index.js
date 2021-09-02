@@ -281,10 +281,10 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   gameModalTitle.innerText = gameTitle;
   const gameModalGenres = document.createElement('p');
   gameModalGenres.id = '#game-genres';
-  gameModalGenres.innerText = genres;
+  gameModalGenres.innerText = genres.join(", ");
   const gameModalDeveloper = document.createElement('p');
   gameModalDeveloper.id = '#game-developer';
-  gameModalDeveloper.innerText = developers;
+  gameModalDeveloper.innerText = developers.join(", ");
   const gameModalRating = document.createElement('p');
   gameModalRating.id = '#game-rating';
   (gameRating) ? 
@@ -297,10 +297,14 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
 
   const gameModalScreenshots = document.querySelector('#game-modal-screenshots');
   for (let i = 0; i < 3; i++) {
+    const screenShotImgWrapper = document.createElement('a');
     const screenShotImg = document.createElement('img');
     screenShotImg.src = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.screenshots[i].image_id}.png`;
     screenShotImg.classList.add('screen-shot-img');
-    gameModalScreenshots.appendChild(screenShotImg);
+    screenShotImgWrapper.href = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.screenshots[i].image_id}.png`;
+    screenShotImgWrapper.target = "_blank";
+    screenShotImgWrapper.appendChild(screenShotImg);
+    gameModalScreenshots.appendChild(screenShotImgWrapper);
   }
 
   const gameVideoTitle = document.createElement('p');
