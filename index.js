@@ -1,5 +1,5 @@
 //CREDENTIALS
-const igdbUrl = 'https://cors-lite.herokuapp.com/https://api.igdb.com/v4'; 
+const igdbUrl = 'https://cors-lite.herokuapp.com/https://api.igdb.com/v4';
 const clientID = '03ktyk7tynafougy2affcczbqjhoi7';
 const clientSecret = 'quuj42etoeh1fstmfiv9wpvhv9yq3p';
 let token = '';
@@ -26,7 +26,7 @@ const getCredentials = async () => {
     console.log(error);
   }
   //getTenRandomGames(token);
-} 
+}
 
 //AXIOS GET FUNCTIONS
 const getGames = async (userInput, page) => {
@@ -43,7 +43,7 @@ const getGames = async (userInput, page) => {
     const games = response.data;
     console.log(games);
     if (games.length === 0) {
-      if(!alert('No games found for that title...')){window.location.reload();}
+      if (!alert('No games found for that title...')) { window.location.reload(); }
     }
     renderGames(games);
   } catch (error) {
@@ -66,7 +66,7 @@ const getDeveloperGames = async (userInput, page) => {
     console.log(response);
     const games = response.data[0].developed;
     if (games.length === 0) {
-      if(!alert('No games found for that title...')){window.location.reload();}
+      if (!alert('No games found for that title...')) { window.location.reload(); }
     }
     await Promise.all(
       games.map(async (game) => {
@@ -106,7 +106,7 @@ const getGameInfo = async (gameID) => {
     const response = await axios.get(`${igdbUrl}/games/${id}`, {
       params: {
         fields: 'cover.image_id, genres, involved_companies, name, rating, release_dates, screenshots.image_id, videos.video_id',
-        limit: 1, 
+        limit: 1,
       },
     });
     console.log("This is the game selected");
@@ -114,9 +114,9 @@ const getGameInfo = async (gameID) => {
     const game = response.data[0];
     const [genres, developers, releaseDates] = await Promise.all([getGameGenres(game.genres), getGameDevelopers(game.involved_companies), getYearOfRelease(game.release_dates)]);
     //check if videos actually has something
-    (game.videos) ? 
-    renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id) :
-    renderGameInfo(game, genres, developers, releaseDates, 'No video found') ;
+    (game.videos) ?
+      renderGameInfo(game, genres, developers, releaseDates, game.videos[0].video_id) :
+      renderGameInfo(game, genres, developers, releaseDates, 'No video found');
   } catch (error) {
     console.log(error);
   }
@@ -183,7 +183,7 @@ const getTenRandomGames = async (token) => {
     console.log(response);
   } catch (error) {
     console.log(error);
-  } 
+  }
 }
 
 const getYearOfRelease = async (releaseDates) => {
@@ -197,9 +197,9 @@ const getYearOfRelease = async (releaseDates) => {
       }
     });
     if (response.data.length > 0) {
-      const date = new Date(response.data[0].date*1000);
+      const date = new Date(response.data[0].date * 1000);
       date.setDate(date.getDate() + 1);
-      releaseDatesArray.push(date.toLocaleDateString("default", {month: 'long', day: 'numeric', year: 'numeric'}));
+      releaseDatesArray.push(date.toLocaleDateString("default", { month: 'long', day: 'numeric', year: 'numeric' }));
     } else {
       releaseDatesArray.push('No year of release found.');
     }
@@ -217,14 +217,14 @@ const renderGames = (games) => {
   renderCurrScreen();
   let errorCounter = 0;
   games.forEach((game) => {
-    if(game.cover) {
+    if (game.cover) {
       const gameContainer = document.createElement('div');
       const gameImg = document.createElement('img');
       const gameCoverUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.png`;
-      
+
       gameImg.src = gameCoverUrl;
       gameImg.classList.add('game-img');
-      gameImg.setAttribute('id',`id${game.id}`);
+      gameImg.setAttribute('id', `id${game.id}`);
       gameContainer.appendChild(gameImg);
       gameContainer.classList.add('game-container');
       gameContainer.addEventListener('click', toggleGameInfo);
@@ -232,8 +232,8 @@ const renderGames = (games) => {
     } else {
       errorCounter += 1;
     }
-    if(errorCounter === games.length) {
-      if(!alert('No games found for that title...')){window.location.reload();}
+    if (errorCounter === games.length) {
+      if (!alert('No games found for that title...')) { window.location.reload(); }
     }
   });
   renderPages();
@@ -246,11 +246,11 @@ const renderPages = () => {
     const pageButton = document.createElement('button');
     pageButton.classList.add('search-page-button');
     pageButton.id = i;
-    pageButton.innerText = i+1;
+    pageButton.innerText = i + 1;
     pageButton.addEventListener('click', handlePageSearch);
     searchPages.appendChild(pageButton);
   }
-  
+
 }
 
 const clearGameModal = () => {
@@ -290,9 +290,9 @@ const renderGameInfo = (game, genres, developers, releaseDates, videoID) => {
   gameModalDeveloper.innerText = developers.join(", ");
   const gameModalRating = document.createElement('p');
   gameModalRating.id = '#game-rating';
-  (gameRating) ? 
-  gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100" : 
-  gameModalRating.innerText = "Rating not found...";
+  (gameRating) ?
+    gameModalRating.innerText = Math.round(gameRating * 10) / 10 + " / 100" :
+    gameModalRating.innerText = "Rating not found...";
   const gameModalYearOfRelease = document.createElement('p');
   gameModalYearOfRelease.id = '#game-year-of-release';
   gameModalYearOfRelease.innerText = releaseDates;

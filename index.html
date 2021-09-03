@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="icon" href="myfavicon.ico" type="image/x-icon"> 
-  <link rel="shortcut icon" href="myfavicon.ico" type="image/x-icon">   
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&family=Open+Sans&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="myfavicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="myfavicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="index.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script defer src="index.js"></script>
   <title>GameFeed</title>
 </head>
+
 <body>
   <nav>
     <div class="nav-left title">GameFeed</div>
@@ -36,23 +41,23 @@
       <span class="circle"></span>
     </div>
     <div id="home">
-      <form class="form" id="search" autocomplete="off"> 
+      <form class="form" id="search" autocomplete="off">
         <input type="search" class="query" name="q" placeholder="Search Title...">
         <button class="submit">Search</button>
       </form>
-      <form class="form" id="developer" autocomplete="off"> 
+      <form class="form" id="developer" autocomplete="off">
         <input type="search" class="query" name="developer-query" placeholder="Search Developer...">
         <button class="submit" type="submit">Search</button>
       </form>
       <div id="games">
-        
+
       </div>
       <div id="game-modal">
         <div id="back-button">
           <button>Back</button>
         </div>
         <div id="game-modal-image-container">
-          <img id="game-modal-image"/>
+          <img id="game-modal-image" />
           <div id="game-modal-info">
             <p id="game-title">Game Title</p>
             <p id="game-genres">Game Genres</p>
@@ -75,13 +80,19 @@
       </div>
     </div>
     <div id="about">
-      <p class="about-text">GameFeed is a web application for discovering new games based on player preferences of genre, cost, development companies, ratings, and more.</p>
-      <p class="about-text">Whether it be searching for your next gaming adventure or just looking around, GameFeed can get you the most up to date recommendations!</p>
-      <p class="about-text">Currently, users can only search for games by title. Additional features may be added in the future.</p>
+      <p class="about-text">GameFeed is a web application for discovering new games based on player preferences of
+        genre, cost, development companies, ratings, and more.</p>
+      <p class="about-text">Whether it be searching for your next gaming adventure or just looking around, GameFeed can
+        get you the most up to date recommendations!</p>
+      <p class="about-text">Currently, users can only search for games by title. Additional features may be added in the
+        future.</p>
     </div>
     <div id="contact">
-      <p class="contact-text">For inquiries, feel free to send an email to <a class="contact-link" href = "mailto:nateshim@gmail.com?subject=Question Regarding GameFeed" target="__blank">nateshim@gmail.com</a></p>
-      <p class="contact-text">For bug reports, please direct an email <a class="contact-link" href = "mailto:nateshim@gmail.com?subject=GameFeed Bug Report" target="__blank">here</a></p>
+      <p class="contact-text">For inquiries, feel free to send an email to <a class="contact-link"
+          href="mailto:nateshim@gmail.com?subject=Question Regarding GameFeed" target="__blank">nateshim@gmail.com</a>
+      </p>
+      <p class="contact-text">For bug reports, please direct an email <a class="contact-link"
+          href="mailto:nateshim@gmail.com?subject=GameFeed Bug Report" target="__blank">here</a></p>
     </div>
     <div id="features">
       <p class="features-text">Search by Title: <a class="features-title-link">Here</a></p>
@@ -102,4 +113,5 @@
     </div>
   </footer>
 </body>
+
 </html>
